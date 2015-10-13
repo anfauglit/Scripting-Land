@@ -1,0 +1,52 @@
+div#testOptions {
+	float: right;
+	width: 230px;
+	background-color: #003a63;
+	color: #eaeaea;
+	padding-left: 20px;
+}
+
+div#testOptions ul {
+	list-style-type: none;
+	padding: 0px;
+}
+
+div#testOptions li {
+	margin-bottom: 10px;
+}
+
+section#main {
+	background-color: #f0f0f0;
+	margin-right: 270px;
+	padding: 20px;
+}
+#test header {
+	margin: 20px 0 50px 0px;
+}
+
+#equation {
+	font-size: 1.7em;
+	font-weight: bold;
+	margin-bottom: 50px;
+}
+
+#current {
+	margin-left: 50px;
+}
+
+
+div#results {
+	margin-top: 50px;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 1.3em;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.cell {
+	padding: 5px;
+}

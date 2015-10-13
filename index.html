@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="Windows,Batch,VBScript,JavaScript,Math,script">
+		<title>Scripting Land is like a Wonder Land but much better</title>
+		<link type="text/css" rel="stylesheet" href="scriptingLand.css">
+	</head>
+	
+	<body>
+		<div id="allcontent">
+			<header>
+				<img src="images/logo.png" alt="Scripting Land Logo">
+				<h3>Talking about scripting, interesting problems and solutions. Discussion of related topics.</h3>
+			</header>
+			<div id="content">
+				<nav id="menu">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="">Batch</a></li>
+						<li><a href="">JavaScript</a></li>
+						<li><a href="">VBScript</a></li>
+						<li><a href="">Windows</a></li>
+						<li><a href="math/mathtest.html">Math</a></li>
+					</ul>
+				</nav>
+				<section id="main">
+					<article>
+						<div class="postLogo"><img src="images/mathlogo.png" alt="Math Logo">
+						</div>
+						<header>Multiplication challenge.</header>
+						<p>The brand new Math section has been added to the website. And the first item there is a multiplication test app with an ability to setup various settings such as upper number limit,
+						practicing certain special cases of multiplication.
+						</p>
+						<p>
+						Being able to compute numbers in your head at high speed and not using any kind of software or hardware is an amazing skill that you can use in your regular life. And as a programmer or a 
+						scripter you are dealing with numbers in all kinds of forms almost every day. Enjoy.
+						</p>
+			<!-- 			<p>If you are a GUI guy (GUI stands for the Graphical User Interface) then you might encounter this tab in <em>System Properties > Advanced</em>. 
+						For some reason it stands alone and doesn’t say much about what’s inside. After you click on it you will see a tab that is split in half and both parts look 
+						pretty much the same except the top one says something about User variables and the bottom one about System variables.
+						</p>
+						<div id="SystemTabPic">
+							<img src="images/tab1.jpg" alt="System Properties Tab">
+							<img src="images/tab2.jpg" alt="Environment Variables Tab">
+						</div>
+						<p>Let’s step aside for a minute and talk about variables in general. Basically in programming, a variable is a box with a name where you can put something inside. 
+						Later on you can retrieve that information if you know the name of a variable. Usually a variable is assigned to contain only a certain type of information, for instance,
+						it can store only strings, and the destiny of another variable is to accumulate numbers. If you are down with that you are ready to understand what the environment variables are!
+						</p>
+						<p>In Windows we got a bunch of variables (these nice boxes that are ready to provide some storage services) with the names that you can see on the Environment Variables tab. 
+						And every variable is filled with some data and in Windows OS these variables contain only strings. Well you can say that I am lying and there are some numbers present in the Value 
+						column but the truth is that these numbers are still strings.
+						</p> -->
+						<time datetime="2015-10-13">13.10.2015</time>
+					</article>
+					<article>
+						<div class="postLogo"><img src="images/winlogo.png" alt="Windows Logo">
+						</div>
+						<header>Protect the Environment! Part I.</header>
+						<p>In Windows operation systems there are some nice variables hanging around and waiting for us to make use of them but only a small group of people utilizing those.
+						Today we will try to join that elite club of champs that know what the environment variables are and how and where you can use them. The first part of our journey inside
+						those nasty and slizzy variables are coming soon. Stay tuned!
+						</p>
+			<!-- 			<p>If you are a GUI guy (GUI stands for the Graphical User Interface) then you might encounter this tab in <em>System Properties > Advanced</em>. 
+						For some reason it stands alone and doesn’t say much about what’s inside. After you click on it you will see a tab that is split in half and both parts look 
+						pretty much the same except the top one says something about User variables and the bottom one about System variables.
+						</p>
+						<div id="SystemTabPic">
+							<img src="images/tab1.jpg" alt="System Properties Tab">
+							<img src="images/tab2.jpg" alt="Environment Variables Tab">
+						</div>
+						<p>Let’s step aside for a minute and talk about variables in general. Basically in programming, a variable is a box with a name where you can put something inside. 
+						Later on you can retrieve that information if you know the name of a variable. Usually a variable is assigned to contain only a certain type of information, for instance,
+						it can store only strings, and the destiny of another variable is to accumulate numbers. If you are down with that you are ready to understand what the environment variables are!
+						</p>
+						<p>In Windows we got a bunch of variables (these nice boxes that are ready to provide some storage services) with the names that you can see on the Environment Variables tab. 
+						And every variable is filled with some data and in Windows OS these variables contain only strings. Well you can say that I am lying and there are some numbers present in the Value 
+						column but the truth is that these numbers are still strings.
+						</p> -->
+						<time datetime="2015-10-06">06.10.2015</time>
+					</article>
+					
+					<article>
+						<div class="postLogo"><img src="images/cmdlogo.png" alt="Command Line Logo">
+						</div>
+						<header>Here comes the <em>batch</em>.</header>
+						<ul>
+							<li>
+								<p>First we are going to talk about how to determine the number of strings in a text file. 
+								To accomplish this we are going to use the power of the <span class="code">find</span> command. What we are doing here is looking for empty strings in a text file
+								and only use the strings that don't contain them (/v switch). Every string in a file contains something. It can be an array of symbols or something
+								that you cannnot even see, like &lt;CR&gt; (carrige return), &lt;LF&gt; (line feed) and other non-printable characters. So until you hit the End Of File (EOF) pointer every line
+								will have something inside of it. In other words we seek for the lines with content and you know what, we're lucky because every line in a file has it! 
+								</p>
+								<p class="code">find /c /v "" [file name]</p>
+								<p>/c switch does the counting.</p>
+							</li>
+							<li>
+								<p>Another very common task is obtaining date and time. There are a lot of different methods to do so, but I find the one that uses WMI (Windows Management Instrumentation) to
+								be the most reliable out there. The advantage of this approach is that regional settings won't affect the output.
+								</P>
+								<p class="code">
+								@echo off<br>
+								setlocal enableDelayedExpansion<br>
+								for /f "tokens=2 delims==+-" %%i in ('WMIC OS Get LocalDateTime /value ^| findstr "="') do (<br>
+									set _Date=%%i<br>
+									set YYYY=_Date:~0,4!<br>
+									set MM=!_Date:~4,2!<br>
+									set DD=!_Date:~6,2!<br>
+									set HH=!_Date:~8,2!<br>
+									set Min=!_Date:~10,2!<br>
+									set Sec=!_Date:~12,2!<br>
+									set Mili=!_Date:~-6!<br>
+								)
+								</p>
+							</li>
+						</ul>
+						<time datetime="2015-10-02">02.10.2015</time>
+					</article>
+				</div>
+				<footer>
+				<p>
+				<a href="about/index.html" title="Nothing to explain here, really.">About the author.</a>
+				</p>
+				</footer>	
+			</section>	
+		</div>
+	</body>
+</html>
