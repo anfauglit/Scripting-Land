@@ -32,24 +32,30 @@
 					</header>
 					<form>
 						<ul>
-							<li><p>Numbers range:</p><input type="text" id="maxRandNumber" value="20"></li>
+							<li id="limits"><p><span>Numbers range</span><br>
+									Lower limit:<br>
+									<input type="text" id="minRandNumber" value="5"><br>
+									Upper limit:<br>
+									<input type="text" id="maxRandNumber" value="50"><br>
+							</p>
+							</li>
 							<li><p>Number of problems:</p><input type="text" id="numProblems" value="5"></li>
 							<li><input type="checkbox" name="special" value="SpecialTest" id="checkBox">Special Tests</li>
-							<li><input type="radio" name="specialCase" value="Multi2" id="Mult2">Multiplication by 2</li>	
-							<li><input type="radio" name="specialCase" value="Multi5" id="Mult5">Multiplication by 5</li>
-							<li><input type="radio" name="specialCase" value="Multi25" id="Mult25">Multiplication by 25</li>
+							<li><input type="radio" name="radio" class="multiplication" id="mult">Multiplication by <input type="text" name="radio" id="multValue" value="5" size="3"></li>	
+							<li><input type="radio" name="radio" class="division" id="div">Division by <input type="text" id="divValue" name="radio" value="5" size="3"></li>
 						</ul>
 					</form>
 				</div>
 				<section id="main">
-
-						
 						<div id="test">
 							<header>
 								<h1>Multiplication test</h1>
 							</header>
+							<p>First choose the options on the right side of the screen then press <em>START</em> button. Results will show up at the bottom of the page after you
+								finish with the test.
+							</p>
 							<p id="equation">
-							<span id="randomEquation">Equations to solve will show up here</span><span id="current"></span>
+							<span id="randomEquation">Equations to solve will show up here</span><span id="current"></span><span id="timer"></span>
 							</p>
 							<div id="userInput">
 								<form>

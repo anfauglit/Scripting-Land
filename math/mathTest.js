@@ -1,20 +1,25 @@
-function genEquation(maxNumber) {
+function getRandom(min, max) {
+	return Math.round(Math.random()*(max - min) + Number(min));
+}
+
+function getEquation(sign) {
+	//Based on the current state of test switches generates a function that is going 
+	// to be used during the test for problems generation
 	var checkBox = document.getElementById("checkBox");
+	var rand = getRandom(data.minRandomNumber, data.maxRandomNumber);
 	if (!checkBox.checked) {
-		return Math.round(Math.random() * maxNumber) + " * " + Math.round(Math.random() * maxNumber);
+		return function() {
+		 return rand + " * " + getRandom(data.minRandomNumber, data.maxRandomNumber);
+		};
 	} else {
-		var radio1 = document.getElementById("Mult2");
-		var radio2 = document.getElementById("Mult5");
-		var radio3 = document.getElementById("Mult25");
-		if (radio1.checked) {
-			return Math.round(Math.random() * maxNumber) + " * 2";
+		if (sign === "/") {
+			do {
+				rand = getRandom(data.minRandomNumber, data.maxRandomNumber);
+			} while (rand % data.selection != 0);
 		}
-		if (radio2.checked) {
-			return Math.round(Math.random() * maxNumber) + " * 5";
-		}
-		if (radio3.checked) {
-			return Math.round(Math.random() * maxNumber) + " * 25";
-		}
+		return function() {
+			return rand + " " + sign + " " + data.selection;
+		};
 	}
 }
 
@@ -36,9 +41,12 @@ var view = {
 }
 
 var data = {
-	maxRandomNumber: 100,
+	minRandomNumber: 0,
+	maxRandomNumber: 0,
 	equationNumber: 10,
 	currentEquation: 0,
+	selection: 0,
+	checkBox: true, // State of the check box for the special cases. The box is unchecked when the value is true
 	userAnswers: [],
 	checkAnswer: function() {
 		var userAnswer = [];
@@ -46,8 +54,12 @@ var data = {
 		userAnswer[0] = equation.innerHTML;
 		var inputField = document.getElementById("answer");
 		userAnswer[1] = inputField.value;
-		var numbers = userAnswer[0].split("*");
-		rightAnswer = numbers[0] * numbers[1];
+		var numbers = userAnswer[0].split(divOrMult());
+		if (divOrMult() === "*") {
+			rightAnswer = numbers[0] * numbers[1];
+		} else {
+			rightAnswer = numbers[0] / numbers[1];
+		}
 		if (rightAnswer == userAnswer[1]) {
 			userAnswer[2] = true;
 		} else {
@@ -58,11 +70,11 @@ var data = {
 }
 
 function checkClick() {
+		var genEquation = getEquation(divOrMult());
 		data.userAnswers[data.currentEquation] = data.checkAnswer();
 		data.currentEquation++;
 		var inputField = document.getElementById("answer");
 		inputField.value = "";
-
 		if (data.currentEquation == data.equationNumber) {
 			view.displayEquation("The test is over, check your answers");
 			showResults(data.userAnswers);
@@ -72,21 +84,34 @@ function checkClick() {
 			startButton.onclick = test;
 			document.getElementById("current").innerHTML = "";
 		} else {
-			view.displayEquation(genEquation(data.maxRandomNumber));
+			view.displayEquation(genEquation());
 			view.displayStage(data.currentEquation + 1, data.equationNumber);	
 		}
 }
+function divOrMult() {
+	var div = document.getElementById("mult");
+	if (div.checked) {
+		data.selection = document.getElementById("multValue").value;
+		return "*";
+	} else {
+		data.selection = document.getElementById("divValue").value;
+		return "/";
+	}
+}
+
 
 function test() {
+	data.maxRandomNumber =  document.getElementById("maxRandNumber").value;
+	data.minRandomNumber =  document.getElementById("minRandNumber").value;
+	data.equationNumber = document.getElementById("numProblems").value;
+	var genEquation = getEquation(divOrMult());
 	data.currentEquation = 0;
+	// var timerNode = document.getElementById("timer");
+	// timerNode.innerHTML = 0;
 	var table = document.getElementById("result");
 	table.innerHTML = "";
 	var startButton = document.getElementById("answerButton");
-	var maxRand = document.getElementById("maxRandNumber");
-	var numProb = document.getElementById("numProblems");
-	data.maxRandomNumber = maxRand.value;
-	data.equationNumber = numProb.value;
-	view.displayEquation(genEquation(data.maxRandomNumber));
+	view.displayEquation(genEquation());
 	view.displayStage(data.currentEquation + 1, data.equationNumber);
 	startButton.setAttribute("value", "Check");
 	startButton.onclick = checkClick;
@@ -94,6 +119,17 @@ function test() {
 	inputField.focus();
 	inputField.onkeypress = handleKeyPress;
 }
+// function timer() {
+	// var timerNode = document.getElementById("timer");
+	// var timerCounter = 0;
+	// var timerVariable = setInterval(tick, 1000);
+	// function tick(timerVariable) { 
+		// timerNode.innerHTML = 1 + Number(timerNode.innerHTML);
+		// if (data.currenEquation === 3) {
+			// clearInterval(timerVariable);
+		// }
+	// }
+// }
 
 function handleKeyPress(e) {
 	var startButton = document.getElementById("answerButton");
@@ -103,31 +139,13 @@ function handleKeyPress(e) {
 	}
 }
 
-function init() {
-	var startButton = document.getElementById("answerButton");
-	startButton.onclick = test;
-	activation();
-	var checkBox = document.getElementById("checkBox");
-	checkBox.onchange = activation;
-}
-
 function activation() {
-	var checkBox = document.getElementById("checkBox");
-	var maxRand = document.getElementById("maxRandNumber");
-	var radio1 = document.getElementById("Mult2");
-	var radio2 = document.getElementById("Mult5");
-	var radio3 = document.getElementById("Mult25");
-	if (checkBox.checked) {
-		maxRand.disabled = true;
-		radio1.disabled = false;
-		radio2.disabled = false;
-		radio3.disabled = false;
-	} else {
-		maxRand.disabled = false;
-		radio1.disabled = true;
-		radio2.disabled = true;
-		radio3.disabled = true;
+	//Changes the state of the radio buttons according to the state of CheckBox 
+	var radios = document.getElementsByName("radio");
+	for (var i = 0; i < radios.length; i++) {
+		radios[i].disabled = data.checkBox;
 	}
+	data.checkBox = !data.checkBox;
 }
 
 function showResults(answers) {
@@ -154,4 +172,10 @@ function showResults(answers) {
 	}
 }
 
-window.onload = init;
+window.onload = function() {
+	var startButton = document.getElementById("answerButton");
+	startButton.onclick = test;
+	activation();
+	var checkBox = document.getElementById("checkBox");
+	checkBox.onchange = activation;
+}
