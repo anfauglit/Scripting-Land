@@ -56,7 +56,7 @@ var data = {
 		userAnswer[1] = inputField.value;
 		var numbers = userAnswer[0].split(divOrMult());
 		if (divOrMult() === "*") {
-			rightAnswer = numbers[0] * numbers[1];
+			rightAnswer = Number(numbers[0]) * Number(numbers[1]);
 		} else {
 			rightAnswer = numbers[0] / numbers[1];
 		}
@@ -90,7 +90,8 @@ function checkClick() {
 }
 function divOrMult() {
 	var div = document.getElementById("mult");
-	if (div.checked) {
+	var checkBox = document.getElementById("checkBox");
+	if (div.checked || !checkBox.checked) {
 		data.selection = document.getElementById("multValue").value;
 		return "*";
 	} else {
